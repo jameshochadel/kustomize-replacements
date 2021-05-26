@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - source.yaml
+  - target.yaml
+
+replacements:
+  - source:
+      kind: ConfigMap
+      version: v1
+      name: source
+      fieldPath: data.value
+    targets:
+      - select:
+          group: kubernetes-client.io
+          version: v1
+          kind: ExternalSecret
+          name: some-secret
+        fieldPaths:
+          - spec.data.0.key
+          - spec.data.1.key
+          - spec.data.2.key
+        options:
+          delimiter: "-"
+          index: 2
