@@ -1,0 +1,16 @@
+- source:
+    kind: ConfigMap
+    version: v1
+    name: source
+    fieldPath: data.value
+  targets:
+    - select:
+        group: kubernetes-client.io
+        version: v1
+        kind: ExternalSecret
+        name: some-secret
+      fieldPaths:
+        - spec.data.0.key
+      options:
+        delimiter: "-"
+        index: 2
